@@ -4,6 +4,7 @@ jobs:
   build:
     docker:
       - image: cimg/node:18.17.0
+    working_directory: ~/project/customer-payments-portal
     steps:
       - checkout
       - run:
@@ -20,6 +21,7 @@ jobs:
   sonarQubeScan:
     docker:
       - image: cimg/node:18.17.0
+    working_directory: ~/project/customer-payments-portal
     steps:
       - checkout
       - run:
