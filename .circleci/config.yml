@@ -6,15 +6,27 @@ jobs:
       - image: cimg/node:18.17.0
     steps:
       - checkout
-      - run: cd server && npm install
-      - run: cd server && npm run build || echo "No build step"
+      - run:
+          name: Install dependencies
+          command: |
+            cd server
+            npm install
+      - run:
+          name: Build backend
+          command: |
+            cd server
+            npm run build || echo "No build step"
 
   sonarQubeScan:
     docker:
       - image: cimg/node:18.17.0
     steps:
       - checkout
-      - run: cd server && npm install -g sonar-scanner
+      - run:
+          name: Install Sonar Scanner
+          command: |
+            cd server
+            npm install -g sonar-scanner
       - run:
           name: Run SonarCloud Scan
           command: |
