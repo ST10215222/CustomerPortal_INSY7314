@@ -6,26 +6,24 @@ jobs:
       - image: cimg/node:18.17.0
     steps:
       - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            cd server
-            npm install
-      - run:
-          name: Build backend
-          command: |
-            cd server
-            npm run build || echo "No build step"
+      - run: cd server && npm install
+      - run: cd server && npm run build || echo "No build step"
+
+  sonarQubeScan:
+    docker:
+      - image: cimg/node:18.17.0
+    steps:
+      - checkout
+      - run: cd server && npm install -g sonar-scanner
       - run:
           name: Run SonarCloud Scan
           command: |
             cd server
-            npm install -g sonar-scanner
             sonar-scanner \
+              -Dsonar.host.url=https://sonarcloud.io \
               -Dsonar.projectKey=ST10215222_CustomerPortal_INSY7314 \
               -Dsonar.organization=ST10215222 \
               -Dsonar.sources=. \
-              -Dsonar.host.url=//https://sonarcloud.io \
               -Dsonar.login=$SONAR_TOKEN
 
 workflows:
@@ -33,3 +31,6 @@ workflows:
   build-and-scan:
     jobs:
       - build
+      - sonarQubeScan:
+          requires:
+            - build
