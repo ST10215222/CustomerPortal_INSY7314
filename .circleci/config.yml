@@ -13,10 +13,10 @@ jobs:
           command: |
             npm install -g sonar-scanner
             sonar-scanner \
+              -Dsonar.host.url=//https://sonarcloud.io \
               -Dsonar.projectKey=ST10215222_CustomerPortal_INSY7314 \
               -Dsonar.organization=ST10215222 \
               -Dsonar.sources=. \
-              -Dsonar.host.url=https://your-sonarqube-url.com \
               -Dsonar.login=$SONAR_TOKEN
 
 workflows:
